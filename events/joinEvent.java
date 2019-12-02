@@ -35,6 +35,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -43,6 +44,7 @@ import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -136,6 +138,19 @@ public Inventory kitChoose() {
         return inv;
 }
 
+public void setKit(Player player, String kit) {
+        Inventory inventory = player.getInventory();
+        inventory.clear();
+        if (kit.equalsIgnoreCase("guerrier")) {
+        ItemStack sword = new ItemStack(Material.IRON_SWORD);
+        ItemStack
+
+        inventory.setItem(0, sword);
+        } else if (kit.equalsIgnoreCase("archer")) {
+
+        }
+}
+
 World world = Bukkit.getWorld("world");
 Location bleuspawn = new Location(world, 2533.651, 10, -299.508, 90.6f, -1.5f);
 Location rougespawn = new Location(world, 2489.744, 10, -297.373, -91.1f, 1.1f);
@@ -143,13 +158,20 @@ Location wait = new Location(world, 2505.308, 155, -310.932, 89.8f, 10f);
 
     List<Player> players = new ArrayList<Player>();
 
+    HashMap<Player, String> kits = new HashMap<Player, String>();
+
 public void killPlayer(Player player) {
     main.titles.sendTitle(player, 3, "§4Tu es mort", "");
+    kits.remove(player);
+    player.getInventory().clear();
 
     player.setHealth(20);
     player.setFoodLevel(20);
     for (PotionEffect effect : player.getActivePotionEffects()) {
-        player.removePotionEffect(effect.getType());
+        if (effect.getType() != PotionEffectType.SATURATION) {
+            player.removePotionEffect(effect.getType());
+        }
+
     }
 
     PermissionUser user = PermissionsEx.getUser(player);
@@ -192,13 +214,18 @@ player.openInventory(kitChoose());
 
 
 
+
+
         Bukkit.getScheduler().runTaskLater((main), new Runnable() {
             public void run() {
+                PotionEffect saturation = new PotionEffect(PotionEffectType.SATURATION, 99999, 1);
+
+                player.addPotionEffect(saturation);
+
                 player.openInventory(inventaire());
             }
         }, 5);
-//
-//
+
     }
 
 
@@ -207,87 +234,107 @@ player.openInventory(kitChoose());
         Inventory clicked = event.getInventory();
         Player player = (Player) event.getWhoClicked();
         ItemStack current = event.getCurrentItem();
-        if (clicked.getName().equals(inventaire().getName())) {
-            event.setCancelled(true);
-            if (current != null && current.getItemMeta() != null) {
 
-                ScoreboardManager manager = Bukkit.getScoreboardManager();
-                Scoreboard board = manager.getMainScoreboard();
+        if (current != null) {
 
-                if (current.getItemMeta().getDisplayName() == "§9Equipe bleue") {
+        ItemMeta m = current.getItemMeta();
+        if (m != null) {
+            String name = current.getItemMeta().getDisplayName();
+            if (name != null) {
+                if (clicked.getName().equals(inventaire().getName())) {
+                    event.setCancelled(true);
+                    if (current != null && current.getItemMeta() != null) {
+
+                        ScoreboardManager manager = Bukkit.getScoreboardManager();
+                        Scoreboard board = manager.getMainScoreboard();
+
+                        if (current.getItemMeta().getDisplayName() == "§9Equipe bleue") {
 
 
-                    PermissionUser user = PermissionsEx.getUser(player);
-                    user.addGroup("bleu");
-                    player.teleport(bleuspawn);
+                            PermissionUser user = PermissionsEx.getUser(player);
+                            user.addGroup("bleu");
+                            player.teleport(bleuspawn);
 
 
 
 
-                    Team bleu = board.getTeam("bleu");
-                    if (bleu == null) {
-                        bleu = board.registerNewTeam("bleu");
+                            Team bleu = board.getTeam("bleu");
+                            if (bleu == null) {
+                                bleu = board.registerNewTeam("bleu");
+                            }
+
+
+                            bleu.setPrefix("§9Bleu ");
+
+                            bleu.setAllowFriendlyFire(false);
+
+                            bleu.setNameTagVisibility(NameTagVisibility.ALWAYS);
+
+                            bleu.addEntry(player.getName());
+
+                            player.setScoreboard(board);
+
+
+                            player.setDisplayName("§9Bleu " + player.getDisplayName());
+
+
+                        } else if (current.getItemMeta().getDisplayName() == "§4Equipe rouge") {
+
+
+                            PermissionUser user = PermissionsEx.getUser(player);
+                            user.addGroup("rouge");
+                            player.teleport(rougespawn);
+
+
+
+                            Team rouge = board.getTeam("rouge");
+                            if (rouge == null) {
+                                rouge = board.registerNewTeam("rouge");
+                            }
+
+
+                            rouge.setPrefix("§4Rouge ");
+
+                            rouge.setAllowFriendlyFire(false);
+
+                            rouge.setNameTagVisibility(NameTagVisibility.ALWAYS);
+
+                            rouge.addEntry(player.getName());
+
+                            player.setScoreboard(board);
+
+                            player.setDisplayName("§4Rouge " + player.getDisplayName());
+                        }
+                    }
+
+                }  else if (clicked.getName().equals(kitChoose().getName())) {
+                    event.setCancelled(true);
+
+
+                    if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§rKit guerrier")) {
+                        kits.put(player, "guerrier");
+                        setKit(player, "guerrier");
+                        player.closeInventory();
+                    } else if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§rKit archer")) {
+                        kits.put(player, "archer");
+                        setKit(player, "archer");
+                        player.closeInventory();
+                    }
+                }  else if (clicked.getName().equals(player.getInventory().getName())) {
+                            if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§4Drapeau rouge") || current.getItemMeta().getDisplayName().equalsIgnoreCase("§9Drapeau bleu")) {
+                                event.setCancelled(true);
+                        }
                     }
 
 
-                    bleu.setPrefix("§9Bleu ");
 
-                    bleu.setAllowFriendlyFire(false);
-
-                    bleu.setNameTagVisibility(NameTagVisibility.ALWAYS);
-
-                   bleu.addEntry(player.getName());
-
-                   player.setScoreboard(board);
-
-
-                   player.setDisplayName("§9Bleu " + player.getDisplayName());
-
-
-                } else if (current.getItemMeta().getDisplayName() == "§4Equipe rouge") {
-
-
-                    PermissionUser user = PermissionsEx.getUser(player);
-                    user.addGroup("rouge");
-                    player.teleport(rougespawn);
-
-
-
-                    Team rouge = board.getTeam("rouge");
-                    if (rouge == null) {
-                        rouge = board.registerNewTeam("rouge");
-                    }
-
-
-                    rouge.setPrefix("§4Rouge ");
-
-                    rouge.setAllowFriendlyFire(false);
-
-                    rouge.setNameTagVisibility(NameTagVisibility.ALWAYS);
-
-                    rouge.addEntry(player.getName());
-
-                    player.setScoreboard(board);
-
-                    player.setDisplayName("§4Rouge " + player.getDisplayName());
                 }
-            }
-
-        } else if (clicked.getName() == player.getInventory().getName()) {
-            ItemMeta m = current.getItemMeta();
-            if (m != null) {
-                String name = current.getItemMeta().getDisplayName();
-                if (name != null) {
-                    if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§4Drapeau rouge") || current.getItemMeta().getDisplayName().equalsIgnoreCase("§9Drapeau bleu")) {
-                        event.setCancelled(true);
-                    }
                 }
-            }
-
-
-
         }
-    }
+            }
+
+
+
 
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
@@ -309,6 +356,14 @@ player.openInventory(kitChoose());
                 }
 
 
+            } else if (closed.getName().equals(kitChoose().getName())) {
+            if (!kits.containsKey(player)) {
+                Bukkit.getScheduler().runTaskLater((main), new Runnable() {
+                    public void run() {
+                        player.openInventory(closed);
+                    }
+                }, 5);
+            }
             }
 
     }

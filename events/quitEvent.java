@@ -10,7 +10,5 @@ public class quitEvent implements Listener {
     @EventHandler
     public void onLeft(PlayerQuitEvent event) {
         event.setQuitMessage("");
-        Player player = event.getPlayer();
-        Bukkit.broadcastMessage("Un fdp vient de quitter. Son nom : §2" + player.getDisplayName());
     }
 }
