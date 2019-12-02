@@ -143,9 +143,12 @@ public void setKit(Player player, String kit) {
         inventory.clear();
         if (kit.equalsIgnoreCase("guerrier")) {
         ItemStack sword = new ItemStack(Material.IRON_SWORD);
-        ItemStack
+        ItemStack helmet = new ItemStack(Material.IRON_HELMET);
+        ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
+
 
         inventory.setItem(0, sword);
+        inventory.setItem(39, helmet);
         } else if (kit.equalsIgnoreCase("archer")) {
 
         }
