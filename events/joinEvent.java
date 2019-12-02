@@ -251,7 +251,7 @@ player.openInventory(kitChoose());
                     user.addGroup("rouge");
                     player.teleport(rougespawn);
 
-                    
+
 
                     Team rouge = board.getTeam("rouge");
                     if (rouge == null) {
