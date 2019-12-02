@@ -210,18 +210,19 @@ player.openInventory(kitChoose());
         if (clicked.getName().equals(inventaire().getName())) {
             event.setCancelled(true);
             if (current != null && current.getItemMeta() != null) {
+
+                ScoreboardManager manager = Bukkit.getScoreboardManager();
+                Scoreboard board = manager.getMainScoreboard();
+
                 if (current.getItemMeta().getDisplayName() == "§9Equipe bleue") {
 
 
                     PermissionUser user = PermissionsEx.getUser(player);
                     user.addGroup("bleu");
                     player.teleport(bleuspawn);
-//                    player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', user.getPrefix()) + user.getName());
 
 
 
-                    ScoreboardManager manager = Bukkit.getScoreboardManager();
-                    Scoreboard board = manager.getMainScoreboard();
 
                     Team bleu = board.getTeam("bleu");
                     if (bleu == null) {
@@ -249,9 +250,8 @@ player.openInventory(kitChoose());
                     PermissionUser user = PermissionsEx.getUser(player);
                     user.addGroup("rouge");
                     player.teleport(rougespawn);
-//                    player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', user.getPrefix()) + user.getName());
-                    ScoreboardManager manager = Bukkit.getScoreboardManager();
-                    Scoreboard board = manager.getMainScoreboard();
+
+                    
 
                     Team rouge = board.getTeam("rouge");
                     if (rouge == null) {
