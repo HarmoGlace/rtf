@@ -141,16 +141,58 @@ public Inventory kitChoose() {
 public void setKit(Player player, String kit) {
         Inventory inventory = player.getInventory();
         inventory.clear();
+
+
+    ItemStack helmet = new ItemStack(Material.IRON_HELMET);
+    ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
+    ItemStack leggings = new ItemStack(Material.IRON_LEGGINGS);
+    ItemStack boots = new ItemStack(Material.IRON_BOOTS);
+
+    inventory.setItem(39, helmet);
+    inventory.setItem(38, chestplate);
+    inventory.setItem(37, leggings);
+    inventory.setItem(36, boots);
         if (kit.equalsIgnoreCase("guerrier")) {
-        ItemStack sword = new ItemStack(Material.IRON_SWORD);
-        ItemStack helmet = new ItemStack(Material.IRON_HELMET);
-        ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
+            ItemStack sword = new ItemStack(Material.IRON_SWORD);
 
+            ItemMeta swordm = sword.getItemMeta();
 
-        inventory.setItem(0, sword);
-        inventory.setItem(39, helmet);
+            swordm.spigot().setUnbreakable(true);
+
+            sword.setItemMeta(swordm);
+
+            inventory.setItem(0, sword);
+
         } else if (kit.equalsIgnoreCase("archer")) {
+            ItemStack bow = new ItemStack(Material.BOW);
+            ItemStack arrow = new ItemStack(Material.ARROW);
+            ItemStack sword = new ItemStack(Material.STONE_SWORD);
 
+            ItemMeta bowm = bow.getItemMeta();
+            ItemMeta swordm = sword.getItemMeta();
+
+            swordm.spigot().setUnbreakable(true);
+
+            sword.setItemMeta(swordm);
+
+            bowm.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+
+            bowm.spigot().setUnbreakable(true);
+
+            bowm.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+            bowm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+            bowm.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+            bow.setItemMeta(bowm);
+
+
+
+
+            inventory.setItem(0, bow);
+            inventory.setItem(1, sword);
+            inventory.setItem(17, arrow);
         }
 }
 
@@ -356,6 +398,12 @@ player.openInventory(kitChoose());
                         }
                     }, 5);
 
+                } else { // Si la personne a choisit une team
+                    Bukkit.getScheduler().runTaskLater((main), new Runnable() {
+                        public void run() {
+                            player.openInventory(kitChoose());
+                        }
+                    }, 5);
                 }
 
 
