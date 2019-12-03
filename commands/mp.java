@@ -37,12 +37,10 @@ public class mp implements CommandExecutor {
                     }
 
 
-
                 } else {
                     player.sendMessage("§cJoueur invalide !");
                 }
             }
-
 
 
         }

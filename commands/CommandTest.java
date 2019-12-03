@@ -24,7 +24,7 @@ public class CommandTest implements CommandExecutor {
 
     public boolean onCommand(CommandSender author, Command command, String alias, String[] args) {
         if (author instanceof Player) {
-            Player player = (Player)author;
+            Player player = (Player) author;
             if (args.length == 0) {
                 player.sendMessage("Merci d'indiquer un argument");
             } else {
@@ -34,8 +34,6 @@ public class CommandTest implements CommandExecutor {
                 al.remove(0);
 
                 String[] al2 = (String[]) al.toArray(new String[al.size()]);
-
-
 
 
                 String msg2 = String.join(" ", al2);

@@ -68,7 +68,7 @@ public class joinEvent implements Listener {
         return (WorldGuardPlugin) plugin;
     }
 
-    private Optional<ProtectedRegion> getRegion(Player player){
+    private Optional<ProtectedRegion> getRegion(Player player) {
         Location location = player.getLocation();
         LocalPlayer localPlayer = getWorldGuard().wrapPlayer(player);
         Vector playerVector = BukkitUtil.toVector(location);
@@ -89,30 +89,30 @@ public class joinEvent implements Listener {
     }
 
 
-public Inventory inventaire () {
-    Inventory inv = Bukkit.createInventory(null, 27, "§2Choisis ton équipe");
+    public Inventory inventaire() {
+        Inventory inv = Bukkit.createInventory(null, 27, "§2Choisis ton équipe");
 
-    ItemStack bleu = new ItemStack(Material.WOOL, 1, (byte)11);
+        ItemStack bleu = new ItemStack(Material.WOOL, 1, (byte) 11);
 
-    ItemStack rouge = new ItemStack(Material.WOOL, 1, (byte)14);
+        ItemStack rouge = new ItemStack(Material.WOOL, 1, (byte) 14);
 
-    ItemMeta bleum = bleu.getItemMeta();
-    ItemMeta rougem = rouge.getItemMeta();
+        ItemMeta bleum = bleu.getItemMeta();
+        ItemMeta rougem = rouge.getItemMeta();
 
-    bleum.setDisplayName("§9Equipe bleue");
-    bleu.setItemMeta(bleum);
+        bleum.setDisplayName("§9Equipe bleue");
+        bleu.setItemMeta(bleum);
 
-    rougem.setDisplayName("§4Equipe rouge");
-    rouge.setItemMeta(rougem);
-
-
-    inv.setItem(11, bleu);
-    inv.setItem(15, rouge);
-    return inv;
-}
+        rougem.setDisplayName("§4Equipe rouge");
+        rouge.setItemMeta(rougem);
 
 
-public Inventory kitChoose() {
+        inv.setItem(11, bleu);
+        inv.setItem(15, rouge);
+        return inv;
+    }
+
+
+    public Inventory kitChoose() {
         Inventory inv = Bukkit.createInventory(null, 27, "§rChoisis ton kit");
 
         ItemStack guerrier = new ItemStack(Material.STONE_SWORD, 1);
@@ -128,7 +128,7 @@ public Inventory kitChoose() {
         guerrier.setItemMeta(guerrierm);
 
         archerm.setDisplayName("§rKit Archer");
-        archerm.addEnchant(Enchantment.ARROW_KNOCKBACK, 1,true);
+        archerm.addEnchant(Enchantment.ARROW_KNOCKBACK, 1, true);
         archerm.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         archer.setItemMeta(archerm);
 
@@ -136,9 +136,9 @@ public Inventory kitChoose() {
         inv.setItem(15, archer);
 
         return inv;
-}
+    }
 
-public void setKit(Player player, String kit) {
+    public void setKit(Player player, String kit) {
         Inventory inventory = player.getInventory();
         inventory.clear();
 
@@ -189,12 +189,11 @@ public void setKit(Player player, String kit) {
             bow.setItemMeta(bowm);
 
 
-
             inventory.setItem(0, bow);
             inventory.setItem(1, sword);
             inventory.setItem(17, arrow);
         }
-}
+    }
 
     World world = Bukkit.getWorld("world");
     Location bleuspawn = new Location(world, 2533.651, 10, -299.508, 90.6f, -1.5f);
@@ -205,41 +204,41 @@ public void setKit(Player player, String kit) {
 
     HashMap<Player, String> kits = new HashMap<Player, String>();
 
-public void killPlayer(Player player) {
-    main.titles.sendTitle(player, 3, "§4Tu es mort", "");
-    kits.remove(player);
-    player.getInventory().clear();
+    public void killPlayer(Player player) {
+        main.titles.sendTitle(player, 3, "§4Tu es mort", "");
+        kits.remove(player);
+        player.getInventory().clear();
 
-    player.setHealth(20);
-    player.setFoodLevel(20);
-    for (PotionEffect effect : player.getActivePotionEffects()) {
-        if (effect.getType() != PotionEffectType.SATURATION) {
-            player.removePotionEffect(effect.getType());
+        player.setHealth(20);
+        player.setFoodLevel(20);
+        for (PotionEffect effect : player.getActivePotionEffects()) {
+            if (effect.getType() != PotionEffectType.SATURATION) {
+                player.removePotionEffect(effect.getType());
+            }
+
         }
 
-    }
+        PermissionUser user = PermissionsEx.getUser(player);
+        List<String> ugroups = user.getParentIdentifiers();
 
-    PermissionUser user = PermissionsEx.getUser(player);
-    List<String> ugroups = user.getParentIdentifiers();
+        players.add(player);
 
-    players.add(player);
-
-    if (ugroups.contains("rouge")) {
-        player.teleport(rougespawn);
-    } else if (ugroups.contains("bleu")) {
-        player.teleport(bleuspawn);
-    } else {
-        player.teleport(wait);
-    }
-
-    player.openInventory(kitChoose());
-
-    Bukkit.getScheduler().runTaskLater((main), new Runnable() {
-        public void run() {
-            players.remove(player);
+        if (ugroups.contains("rouge")) {
+            player.teleport(rougespawn);
+        } else if (ugroups.contains("bleu")) {
+            player.teleport(bleuspawn);
+        } else {
+            player.teleport(wait);
         }
-    }, 10);
-}
+
+        player.openInventory(kitChoose());
+
+        Bukkit.getScheduler().runTaskLater((main), new Runnable() {
+            public void run() {
+                players.remove(player);
+            }
+        }, 10);
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -256,7 +255,6 @@ public void killPlayer(Player player) {
         player.getInventory().clear();
         player.setHealth(20);
         player.setFoodLevel(20);
-
 
 
         Bukkit.getScheduler().runTaskLater((main), new Runnable() {
@@ -280,140 +278,134 @@ public void killPlayer(Player player) {
 
         if (current != null) {
 
-        ItemMeta m = current.getItemMeta();
-        if (m != null) {
-            String name = current.getItemMeta().getDisplayName();
-            if (name != null) {
-                if (clicked.getName().equals(inventaire().getName())) {
-                    event.setCancelled(true);
-                    if (current != null && current.getItemMeta() != null) {
+            ItemMeta m = current.getItemMeta();
+            if (m != null) {
+                String name = current.getItemMeta().getDisplayName();
+                if (name != null) {
+                    if (clicked.getName().equals(inventaire().getName())) {
+                        event.setCancelled(true);
+                        if (current != null && current.getItemMeta() != null) {
 
-                        ScoreboardManager manager = Bukkit.getScoreboardManager();
-                        Scoreboard board = manager.getMainScoreboard();
+                            ScoreboardManager manager = Bukkit.getScoreboardManager();
+                            Scoreboard board = manager.getMainScoreboard();
 
-                        if (current.getItemMeta().getDisplayName() == "§9Equipe bleue") {
-
-
-                            PermissionUser user = PermissionsEx.getUser(player);
-                            user.addGroup("bleu");
-                            player.teleport(bleuspawn);
+                            if (current.getItemMeta().getDisplayName() == "§9Equipe bleue") {
 
 
+                                PermissionUser user = PermissionsEx.getUser(player);
+                                user.addGroup("bleu");
+                                player.teleport(bleuspawn);
 
 
-                            Team bleu = board.getTeam("bleu");
-                            if (bleu == null) {
-                                bleu = board.registerNewTeam("bleu");
+                                Team bleu = board.getTeam("bleu");
+                                if (bleu == null) {
+                                    bleu = board.registerNewTeam("bleu");
+                                }
+
+
+                                bleu.setPrefix("§9Bleu ");
+
+                                bleu.setAllowFriendlyFire(false);
+
+                                bleu.setNameTagVisibility(NameTagVisibility.ALWAYS);
+
+                                bleu.addEntry(player.getName());
+
+                                player.setScoreboard(board);
+
+
+                                player.setDisplayName("§9Bleu " + player.getDisplayName());
+
+
+                            } else if (current.getItemMeta().getDisplayName() == "§4Equipe rouge") {
+
+
+                                PermissionUser user = PermissionsEx.getUser(player);
+                                user.addGroup("rouge");
+                                player.teleport(rougespawn);
+
+
+                                Team rouge = board.getTeam("rouge");
+                                if (rouge == null) {
+                                    rouge = board.registerNewTeam("rouge");
+                                }
+
+
+                                rouge.setPrefix("§4Rouge ");
+
+                                rouge.setAllowFriendlyFire(false);
+
+                                rouge.setNameTagVisibility(NameTagVisibility.ALWAYS);
+
+                                rouge.addEntry(player.getName());
+
+                                player.setScoreboard(board);
+
+                                player.setDisplayName("§4Rouge " + player.getDisplayName());
                             }
+                        }
+
+                    } else if (clicked.getName().equals(kitChoose().getName())) {
+                        event.setCancelled(true);
 
 
-                            bleu.setPrefix("§9Bleu ");
-
-                            bleu.setAllowFriendlyFire(false);
-
-                            bleu.setNameTagVisibility(NameTagVisibility.ALWAYS);
-
-                            bleu.addEntry(player.getName());
-
-                            player.setScoreboard(board);
-
-
-                            player.setDisplayName("§9Bleu " + player.getDisplayName());
-
-
-                        } else if (current.getItemMeta().getDisplayName() == "§4Equipe rouge") {
-
-
-                            PermissionUser user = PermissionsEx.getUser(player);
-                            user.addGroup("rouge");
-                            player.teleport(rougespawn);
-
-
-
-                            Team rouge = board.getTeam("rouge");
-                            if (rouge == null) {
-                                rouge = board.registerNewTeam("rouge");
-                            }
-
-
-                            rouge.setPrefix("§4Rouge ");
-
-                            rouge.setAllowFriendlyFire(false);
-
-                            rouge.setNameTagVisibility(NameTagVisibility.ALWAYS);
-
-                            rouge.addEntry(player.getName());
-
-                            player.setScoreboard(board);
-
-                            player.setDisplayName("§4Rouge " + player.getDisplayName());
+                        if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§rKit guerrier")) {
+                            kits.put(player, "guerrier");
+                            setKit(player, "guerrier");
+                            player.closeInventory();
+                        } else if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§rKit archer")) {
+                            kits.put(player, "archer");
+                            setKit(player, "archer");
+                            player.closeInventory();
+                        }
+                    } else if (clicked.getName().equals(player.getInventory().getName())) {
+                        if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§4Drapeau rouge") || current.getItemMeta().getDisplayName().equalsIgnoreCase("§9Drapeau bleu")) {
+                            event.setCancelled(true);
                         }
                     }
 
-                }  else if (clicked.getName().equals(kitChoose().getName())) {
-                    event.setCancelled(true);
-
-
-                    if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§rKit guerrier")) {
-                        kits.put(player, "guerrier");
-                        setKit(player, "guerrier");
-                        player.closeInventory();
-                    } else if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§rKit archer")) {
-                        kits.put(player, "archer");
-                        setKit(player, "archer");
-                        player.closeInventory();
-                    }
-                }  else if (clicked.getName().equals(player.getInventory().getName())) {
-                            if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§4Drapeau rouge") || current.getItemMeta().getDisplayName().equalsIgnoreCase("§9Drapeau bleu")) {
-                                event.setCancelled(true);
-                        }
-                    }
-
-
 
                 }
-                }
-        }
             }
-
-
+        }
+    }
 
 
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
-            final Player player = (Player) event.getPlayer();
-            final Inventory closed = event.getInventory();
-            if (closed.getName().equals(inventaire().getName())) {
-                PermissionUser user = PermissionsEx.getUser(player);
-                List<String> ugroups = user.getParentIdentifiers();
+        final Player player = (Player) event.getPlayer();
+        final Inventory closed = event.getInventory();
+        if (closed.getName().equals(inventaire().getName())) {
+            PermissionUser user = PermissionsEx.getUser(player);
+            List<String> ugroups = user.getParentIdentifiers();
 
 
-                if (!ugroups.contains("rouge") && !ugroups.contains("bleu")) {
+            if (!ugroups.contains("rouge") && !ugroups.contains("bleu")) {
 
-                    Bukkit.getScheduler().runTaskLater((main), new Runnable() {
-                        public void run() {
-                            player.openInventory(closed);
-                        }
-                    }, 5);
+                Bukkit.getScheduler().runTaskLater((main), new Runnable() {
+                    public void run() {
+                        player.openInventory(closed);
+                    }
+                }, 5);
 
-                } else { // Si la personne a choisit une team
-                    Bukkit.getScheduler().runTaskLater((main), new Runnable() {
-                        public void run() {
-                            player.openInventory(kitChoose());
-                        }
-                    }, 5);
-                }
+            } else { // Si la personne a choisit une team
+                Bukkit.getScheduler().runTaskLater((main), new Runnable() {
+                    public void run() {
+                        player.openInventory(kitChoose());
+                    }
+                }, 5);
+            }
 
 
-            } else if (closed.getName().equals(kitChoose().getName())) {
-                if (!kits.containsKey(player)) {
-                    Bukkit.getScheduler().runTaskLater((main), new Runnable() {
-                        public void run() {
+        } else if (closed.getName().equals(kitChoose().getName())) {
+            if (!kits.containsKey(player)) {
+                Bukkit.getScheduler().runTaskLater((main), new Runnable() {
+                    public void run() {
                         player.openInventory(closed);
                     }
                 }, 5);
             }
-            }
+        }
 
     }
 
@@ -436,7 +428,7 @@ public void killPlayer(Player player) {
                 if (ugroups.contains("rouge")) {
                     block.setType(Material.AIR);
 
-                    ItemStack ib = new ItemStack(Material.BANNER, 1, (byte)4);
+                    ItemStack ib = new ItemStack(Material.BANNER, 1, (byte) 4);
 
                     ItemMeta ib2 = ib.getItemMeta();
 
@@ -447,7 +439,7 @@ public void killPlayer(Player player) {
 
                     inventoryp.clear();
 
-                    for (int i =0; i <= 35; i++) {
+                    for (int i = 0; i <= 35; i++) {
                         inventoryp.setItem(i, ib);
                     }
 
@@ -459,7 +451,7 @@ public void killPlayer(Player player) {
                 if (ugroups.contains("bleu")) {
                     block.setType(Material.AIR);
 
-                    ItemStack ib = new ItemStack(Material.BANNER, 1, (byte)1);
+                    ItemStack ib = new ItemStack(Material.BANNER, 1, (byte) 1);
 
                     ItemMeta ib2 = ib.getItemMeta();
 
@@ -470,7 +462,7 @@ public void killPlayer(Player player) {
 
                     inventoryp.clear();
 
-                    for (int i =0; i <= 35; i++) {
+                    for (int i = 0; i <= 35; i++) {
                         inventoryp.setItem(i, ib);
                     }
 
@@ -482,7 +474,6 @@ public void killPlayer(Player player) {
             event.setCancelled(true);
         }
     }
-
 
 
     @EventHandler
@@ -504,7 +495,7 @@ public void killPlayer(Player player) {
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
-    event.setCancelled(true);
+        event.setCancelled(true);
     }
 
     @EventHandler
@@ -514,26 +505,24 @@ public void killPlayer(Player player) {
         if (helmet != null) {
             String helmetname = player.getInventory().getHelmet().getItemMeta().getDisplayName();
             if (helmetname.equalsIgnoreCase("§4Drapeau rouge") || helmetname.equalsIgnoreCase("§9Drapeau bleu")) {
-            event.setCancelled(true);
+                event.setCancelled(true);
             }
         }
 
     }
 
 
-
-  @EventHandler
-  public void onMove(PlayerMoveEvent event) {
+    @EventHandler
+    public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         Optional<ProtectedRegion> region = getRegion(player);
 
         Location location = player.getLocation();
-      if (location.getY() <= 9 && player.getGameMode() == GameMode.SURVIVAL) {
+        if (location.getY() <= 9 && player.getGameMode() == GameMode.SURVIVAL) {
 
-          killPlayer(player);
+            killPlayer(player);
 
-      } else
-      if (region.isPresent()) {
+        } else if (region.isPresent()) {
             String name = region.get().getId();
 
             PermissionUser user = PermissionsEx.getUser(player);
@@ -543,59 +532,60 @@ public void killPlayer(Player player) {
 
             if (helmet != null && helmet.getType() == Material.BANNER) {
                 if (name.equalsIgnoreCase("rouge") && ugroups.contains("rouge")) { // Si un rouge est revenu chez lui
-                Bukkit.broadcastMessage("§4Les rouges on gagné !");
-             } else if (name.equalsIgnoreCase("bleu") && ugroups.contains("bleu")) {
-                Bukkit.broadcastMessage("§9Les bleus on gagné !");
-            }
-
-            if (name.equalsIgnoreCase("rouge") && ugroups.contains("rouge") || name.equalsIgnoreCase("bleu") && ugroups.contains("bleu")) {
-                for (Player p : Bukkit.getWorld("world").getPlayers()) {
-                    PermissionUser u = PermissionsEx.getUser(p);
-                    for (String s : u.getParentIdentifiers()){
-                        u.removeGroup(s);
-                    }
-
-                    ScoreboardManager manager = Bukkit.getScoreboardManager();
-                    Scoreboard board = manager.getMainScoreboard();
-
-                    Team bleu = board.getTeam("bleu");
-                    if (bleu == null) {
-                        bleu = board.registerNewTeam("bleu");
-                    }
-
-                    Team rouge = board.getTeam("rouge");
-                    if (rouge == null) {
-                      rouge = board.registerNewTeam("rouge");
-                    }
-
-
-
-
-                   if (bleu.hasEntry(player.getName())) {
-                       bleu.removeEntry(player.getName());
-                    }
-
-                   if (rouge.hasEntry(player.getName())) {
-                       rouge.removeEntry(player.getName());
-                   }
-
-                    player.setDisplayName(player.getName());
-
-                    p.getInventory().clear();
-
-                    p.getInventory().clear(39);
-
-                    p.updateInventory();
-
-                    p.setGameMode(GameMode.SPECTATOR);
-
-                    Bukkit.getScheduler().runTaskLater((main), new Runnable() {
-                        public void run() {
-                            p.openInventory(inventaire());
-                            p.setGameMode(GameMode.SURVIVAL);
-                        }
-                    }, 600);
+                    Bukkit.broadcastMessage("§4Les rouges on gagné !");
+                } else if (name.equalsIgnoreCase("bleu") && ugroups.contains("bleu")) {
+                    Bukkit.broadcastMessage("§9Les bleus on gagné !");
                 }
+
+                if (name.equalsIgnoreCase("rouge") && ugroups.contains("rouge") || name.equalsIgnoreCase("bleu") && ugroups.contains("bleu")) {
+                    for (Player p : Bukkit.getWorld("world").getPlayers()) {
+                        PermissionUser u = PermissionsEx.getUser(p);
+                        for (String s : u.getParentIdentifiers()) {
+                            u.removeGroup(s);
+                        }
+
+                        ScoreboardManager manager = Bukkit.getScoreboardManager();
+                        Scoreboard board = manager.getMainScoreboard();
+
+                        Team bleu = board.getTeam("bleu");
+                        if (bleu == null) {
+                            bleu = board.registerNewTeam("bleu");
+                        }
+
+                        Team rouge = board.getTeam("rouge");
+                        if (rouge == null) {
+                            rouge = board.registerNewTeam("rouge");
+                        }
+
+
+                        if (bleu.hasEntry(player.getName())) {
+                            bleu.removeEntry(player.getName());
+                        }
+
+                        if (rouge.hasEntry(player.getName())) {
+                            rouge.removeEntry(player.getName());
+                        }
+
+                        player.setDisplayName(player.getName());
+
+                        p.getInventory().clear();
+
+                        p.getInventory().clear(39);
+
+                        p.updateInventory();
+
+                        p.setGameMode(GameMode.SPECTATOR);
+
+                        Bukkit.getScheduler().runTaskLater((main), new Runnable() {
+                            public void run() {
+                                p.openInventory(inventaire());
+                                p.setGameMode(GameMode.SURVIVAL);
+                            }
+                        }, 600);
+                    }
+                }
+
+
             }
 
 
@@ -603,10 +593,6 @@ public void killPlayer(Player player) {
 
 
     }
-
-
-
-  }
 
     @EventHandler
     public void onWeatherChange(WeatherChangeEvent event) {

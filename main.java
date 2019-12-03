@@ -24,10 +24,6 @@ public class main extends JavaPlugin {
     public setTitles titles = new setTitles();
 
 
-
-
-
-
     @Override
     public void onEnable() {
         System.out.println("Plugin demarre");
@@ -36,10 +32,6 @@ public class main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new joinEvent(this), this);
         getServer().getPluginManager().registerEvents(new quitEvent(), this);
         getServer().getPluginManager().registerEvents(new messageEvent(), this);
-
-
-
-
 
 
         Timer msg = new Timer();
@@ -57,7 +49,6 @@ public class main extends JavaPlugin {
     public void onDisable() {
         System.out.println("Plugin eteint");
     }
-
 
 
 }

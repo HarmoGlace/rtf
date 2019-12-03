@@ -22,18 +22,18 @@ public class setTitles {
 //            ((CraftPlayer)player).getHandle().playerConnection.sendPacket(bsp);
 //        }
 
-        ((CraftPlayer)player).getHandle().playerConnection.sendPacket(titlepacket);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(titlepacket);
         sendTime(player, time);
     }
 
 
-    private void sendTime(Player player, int ticks){
+    private void sendTime(Player player, int ticks) {
         PacketPlayOutTitle titlepacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TIMES, null, 20, ticks, 20);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(titlepacket);
     }
 
 
-    }
+}
 
 
 
