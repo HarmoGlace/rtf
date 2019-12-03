@@ -143,15 +143,16 @@ public void setKit(Player player, String kit) {
         inventory.clear();
 
 
-    ItemStack helmet = new ItemStack(Material.IRON_HELMET);
-    ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
-    ItemStack leggings = new ItemStack(Material.IRON_LEGGINGS);
-    ItemStack boots = new ItemStack(Material.IRON_BOOTS);
+        ItemStack helmet = new ItemStack(Material.IRON_HELMET);
+        ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
+        ItemStack leggings = new ItemStack(Material.IRON_LEGGINGS);
+        ItemStack boots = new ItemStack(Material.IRON_BOOTS);
 
-    inventory.setItem(39, helmet);
-    inventory.setItem(38, chestplate);
-    inventory.setItem(37, leggings);
-    inventory.setItem(36, boots);
+        inventory.setItem(39, helmet);
+        inventory.setItem(38, chestplate);
+        inventory.setItem(37, leggings);
+        inventory.setItem(36, boots);
+
         if (kit.equalsIgnoreCase("guerrier")) {
             ItemStack sword = new ItemStack(Material.IRON_SWORD);
 
@@ -189,17 +190,16 @@ public void setKit(Player player, String kit) {
 
 
 
-
             inventory.setItem(0, bow);
             inventory.setItem(1, sword);
             inventory.setItem(17, arrow);
         }
 }
 
-World world = Bukkit.getWorld("world");
-Location bleuspawn = new Location(world, 2533.651, 10, -299.508, 90.6f, -1.5f);
-Location rougespawn = new Location(world, 2489.744, 10, -297.373, -91.1f, 1.1f);
-Location wait = new Location(world, 2505.308, 155, -310.932, 89.8f, 10f);
+    World world = Bukkit.getWorld("world");
+    Location bleuspawn = new Location(world, 2533.651, 10, -299.508, 90.6f, -1.5f);
+    Location rougespawn = new Location(world, 2489.744, 10, -297.373, -91.1f, 1.1f);
+    Location wait = new Location(world, 2505.308, 155, -310.932, 89.8f, 10f);
 
     List<Player> players = new ArrayList<Player>();
 
@@ -232,7 +232,7 @@ public void killPlayer(Player player) {
         player.teleport(wait);
     }
 
-player.openInventory(kitChoose());
+    player.openInventory(kitChoose());
 
     Bukkit.getScheduler().runTaskLater((main), new Runnable() {
         public void run() {
@@ -256,8 +256,6 @@ player.openInventory(kitChoose());
         player.getInventory().clear();
         player.setHealth(20);
         player.setFoodLevel(20);
-
-
 
 
 
@@ -408,9 +406,9 @@ player.openInventory(kitChoose());
 
 
             } else if (closed.getName().equals(kitChoose().getName())) {
-            if (!kits.containsKey(player)) {
-                Bukkit.getScheduler().runTaskLater((main), new Runnable() {
-                    public void run() {
+                if (!kits.containsKey(player)) {
+                    Bukkit.getScheduler().runTaskLater((main), new Runnable() {
+                        public void run() {
                         player.openInventory(closed);
                     }
                 }, 5);
@@ -536,17 +534,17 @@ player.openInventory(kitChoose());
 
       } else
       if (region.isPresent()) {
-    String name = region.get().getId();
+            String name = region.get().getId();
 
-        PermissionUser user = PermissionsEx.getUser(player);
-        List<String> ugroups = user.getParentIdentifiers();
+            PermissionUser user = PermissionsEx.getUser(player);
+            List<String> ugroups = user.getParentIdentifiers();
 
-        ItemStack helmet = player.getInventory().getHelmet();
+            ItemStack helmet = player.getInventory().getHelmet();
 
-        if (helmet != null && helmet.getType() == Material.BANNER) {
-            if (name.equalsIgnoreCase("rouge") && ugroups.contains("rouge")) { // Si un rouge est revenu chez lui
+            if (helmet != null && helmet.getType() == Material.BANNER) {
+                if (name.equalsIgnoreCase("rouge") && ugroups.contains("rouge")) { // Si un rouge est revenu chez lui
                 Bukkit.broadcastMessage("§4Les rouges on gagné !");
-            } else if (name.equalsIgnoreCase("bleu") && ugroups.contains("bleu")) {
+             } else if (name.equalsIgnoreCase("bleu") && ugroups.contains("bleu")) {
                 Bukkit.broadcastMessage("§9Les bleus on gagné !");
             }
 
