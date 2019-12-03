@@ -3,35 +3,52 @@ package fr.harmoglace.plugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.harmoglace.plugin.commands.CommandTest;
 import fr.harmoglace.plugin.commands.mp;
-import fr.harmoglace.plugin.events.joinEvent;
 import fr.harmoglace.plugin.events.messageEvent;
 import fr.harmoglace.plugin.events.quitEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import fr.harmoglace.plugin.rtf.*;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class main extends JavaPlugin {
 
 
     public setTitles titles = new setTitles();
+    public Inventories inventories = new Inventories();
+    public Locations locations = new Locations();
+
+    public List<Player> players = new ArrayList<Player>();
+
+    public HashMap<Player, String> kits = new HashMap<Player, String>();
+
+    public WorldGuardPlugin getWorldGuard() {
+        Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+
+        // WorldGuard may not be loaded
+        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+            return null; // Maybe you want throw an exception instead
+        }
+
+        return (WorldGuardPlugin) plugin;
+    }
 
 
     @Override
     public void onEnable() {
         System.out.println("Plugin demarre");
+
+
+
         getCommand("annoncer").setExecutor(new CommandTest(this));
         getCommand("mp").setExecutor(new mp());
-        getServer().getPluginManager().registerEvents(new joinEvent(this), this);
         getServer().getPluginManager().registerEvents(new quitEvent(), this);
         getServer().getPluginManager().registerEvents(new messageEvent(), this);
+        getServer().getPluginManager().registerEvents(new ChooseTeam(this), this);
+        getServer().getPluginManager().registerEvents(new WinCheck(this), this);
+        getServer().getPluginManager().registerEvents(new KillPlayer(this), this);
+        getServer().getPluginManager().registerEvents(new CheckFlagsBreak(this), this);
 
 
         Timer msg = new Timer();
@@ -49,6 +66,5 @@ public class main extends JavaPlugin {
     public void onDisable() {
         System.out.println("Plugin eteint");
     }
-
 
 }
