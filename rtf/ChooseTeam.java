@@ -24,6 +24,7 @@ import java.util.List;
 
 public class ChooseTeam implements Listener {
     private main main;
+
     public ChooseTeam(main main) {
         this.main = main;
     }
@@ -157,25 +158,25 @@ public class ChooseTeam implements Listener {
                     }
                 }, 5);
 
-            } else { // Si la personne a choisit une team
-                Bukkit.getScheduler().runTaskLater((main), new Runnable() {
-                    public void run() {
-                        player.openInventory(main.inventories.kitChoose());
-                    }
-                }, 5);
-            }
+            } else if (!main.kits.containsKey(player)) {
+                if (closed.getName().equalsIgnoreCase(main.inventories.kitChoose().getName())) {
+                    Bukkit.getScheduler().runTaskLater((main), new Runnable() {
+                        public void run() {
+                            player.openInventory(closed);
+                        }
+                    }, 5);
+                } else {
+                    Bukkit.getScheduler().runTaskLater((main), new Runnable() {
+                        public void run() {
+                            player.openInventory(main.inventories.kitChoose());
+                        }
+                    }, 5);
+                }
 
 
-        } else if (closed.getName().equals(main.inventories.kitChoose().getName())) {
-            if (!main.kits.containsKey(player)) {
-                Bukkit.getScheduler().runTaskLater((main), new Runnable() {
-                    public void run() {
-                        player.openInventory(closed);
-                    }
-                }, 5);
             }
+
         }
 
     }
-
 }

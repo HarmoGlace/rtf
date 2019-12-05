@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
@@ -137,10 +138,17 @@ public class WinCheck implements Listener {
         Player player = event.getPlayer();
         ItemStack helmet = player.getInventory().getHelmet();
         if (helmet != null) {
-            String helmetname = player.getInventory().getHelmet().getItemMeta().getDisplayName();
-            if (helmetname != null && helmetname.equalsIgnoreCase("§4Drapeau rouge") || helmetname.equalsIgnoreCase("§9Drapeau bleu")) {
-                event.setCancelled(true);
+            ItemMeta helmetm = helmet.getItemMeta();
+            if (helmetm != null) {
+                String helmetname = helmetm.getDisplayName();
+                if (helmetname != null) {
+                    if (helmetname.equalsIgnoreCase("§4Drapeau rouge") || helmetname.equalsIgnoreCase("§9Drapeau bleu")) {
+                        event.setCancelled(true);
+                    }
+                }
+
             }
+
         }
 
     }
