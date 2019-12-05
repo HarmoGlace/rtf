@@ -29,16 +29,6 @@ public class CommandTest implements CommandExecutor {
                 player.sendMessage("Merci d'indiquer un argument");
             } else {
 
-                ArrayList al = new ArrayList(Arrays.asList(args));
-
-                al.remove(0);
-
-                String[] al2 = (String[]) al.toArray(new String[al.size()]);
-
-
-                String msg2 = String.join(" ", al2);
-
-                Bukkit.broadcastMessage(msg2);
                 String msg = String.join(" ", args);
                 Bukkit.broadcastMessage("§c[Important] " + msg);
             }

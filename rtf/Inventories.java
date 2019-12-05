@@ -16,6 +16,8 @@ public class Inventories {
 
         ItemStack bleu = new ItemStack(Material.WOOL, 1, (byte) 11);
 
+
+
         ItemStack rouge = new ItemStack(Material.WOOL, 1, (byte) 14);
 
         ItemMeta bleum = bleu.getItemMeta();
@@ -68,11 +70,13 @@ public class Inventories {
         ItemStack chestplate = new ItemStack(Material.IRON_CHESTPLATE);
         ItemStack leggings = new ItemStack(Material.IRON_LEGGINGS);
         ItemStack boots = new ItemStack(Material.IRON_BOOTS);
+        ItemStack blocks = new ItemStack(Material.SANDSTONE, 64);
 
         inventory.setItem(39, helmet);
         inventory.setItem(38, chestplate);
         inventory.setItem(37, leggings);
         inventory.setItem(36, boots);
+        inventory.setItem(8, blocks);
 
         if (kit.equalsIgnoreCase("guerrier")) {
             ItemStack sword = new ItemStack(Material.IRON_SWORD);

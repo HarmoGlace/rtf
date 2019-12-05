@@ -3,8 +3,7 @@ package fr.harmoglace.plugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.harmoglace.plugin.commands.CommandTest;
 import fr.harmoglace.plugin.commands.mp;
-import fr.harmoglace.plugin.events.messageEvent;
-import fr.harmoglace.plugin.events.quitEvent;
+import fr.harmoglace.plugin.events.Others;
 import fr.harmoglace.plugin.rtf.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -17,7 +16,7 @@ public class main extends JavaPlugin {
 
     public setTitles titles = new setTitles();
     public Inventories inventories = new Inventories();
-    public Locations locations = new Locations();
+    public Locations locations = new Locations(this);
 
     public List<Player> players = new ArrayList<Player>();
 
@@ -37,28 +36,22 @@ public class main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         System.out.println("Plugin demarre");
 
 
 
         getCommand("annoncer").setExecutor(new CommandTest(this));
         getCommand("mp").setExecutor(new mp());
-        getServer().getPluginManager().registerEvents(new quitEvent(), this);
-        getServer().getPluginManager().registerEvents(new messageEvent(), this);
         getServer().getPluginManager().registerEvents(new ChooseTeam(this), this);
         getServer().getPluginManager().registerEvents(new WinCheck(this), this);
         getServer().getPluginManager().registerEvents(new KillPlayer(this), this);
         getServer().getPluginManager().registerEvents(new CheckFlagsBreak(this), this);
+        getServer().getPluginManager().registerEvents(new Others(this), this);
 
 
         Timer msg = new Timer();
 
-//        msg.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                Bukkit.broadcastMessage("Yo les tracteurs, oubliez pas Harmo c'est le meilleur");
-//            }
-//        }, 10000000, 10000000);
     }
 
 
