@@ -4,6 +4,7 @@ import fr.harmoglace.plugin.main;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -113,15 +114,19 @@ public class KillPlayer implements Listener {
                     if (clicked.getName().equals(main.inventories.kitChoose().getName())) {
                         event.setCancelled(true);
 
+                        Material type = current.getType();
 
-                        if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§rKit guerrier")) {
+
+                        if (type == Material.IRON_SWORD) {
                             main.kits.put(player, "guerrier");
                             main.inventories.setKit(player, "guerrier");
                             player.closeInventory();
-                        } else if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§rKit archer")) {
+                            player.sendMessage("§eTu as choisit le kit guerrier");
+                        } else if (type == Material.BOW) {
                             main.kits.put(player, "archer");
                             main.inventories.setKit(player, "archer");
                             player.closeInventory();
+                            player.sendMessage("§eTu as choisit le kit archer");
                         }
                     } else if (clicked.getName().equals(player.getInventory().getName())) {
                         if (current.getItemMeta().getDisplayName().equalsIgnoreCase("§4Drapeau rouge") || current.getItemMeta().getDisplayName().equalsIgnoreCase("§9Drapeau bleu")) {

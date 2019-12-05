@@ -34,7 +34,7 @@ public class ChooseTeam implements Listener {
         System.out.println("Join");
         final Player player = event.getPlayer();
         event.setJoinMessage("");
-        player.sendMessage("Bienvenue sur le serveur !");
+        player.sendMessage("§aBienvenue sur le serveur ! Passez-y un bon moment");
 
         PermissionUser user = PermissionsEx.getUser(player);
         user.removeGroup("bleu");
@@ -104,6 +104,8 @@ public class ChooseTeam implements Listener {
 
                                 player.setDisplayName("§9Bleu " + player.getDisplayName());
 
+                                player.sendMessage("§9Tu as choisit l'équipe bleue");
+
 
                             } else if (current.getItemMeta().getDisplayName() == "§4Equipe rouge") {
 
@@ -130,6 +132,8 @@ public class ChooseTeam implements Listener {
                                 player.setScoreboard(board);
 
                                 player.setDisplayName("§4Rouge " + player.getDisplayName());
+
+                                player.sendMessage("§4Tu as choisit l'équipe rouge");
                             }
                         }
 

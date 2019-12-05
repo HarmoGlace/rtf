@@ -9,6 +9,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Inventories {
 
     public Inventory inventaire() {
@@ -38,19 +42,27 @@ public class Inventories {
     public Inventory kitChoose() {
         Inventory inv = Bukkit.createInventory(null, 27, "§rChoisis ton kit");
 
-        ItemStack guerrier = new ItemStack(Material.STONE_SWORD, 1);
+        ItemStack guerrier = new ItemStack(Material.IRON_SWORD, 1);
         ItemStack archer = new ItemStack(Material.BOW, 1);
 
         ItemMeta guerrierm = guerrier.getItemMeta();
         ItemMeta archerm = archer.getItemMeta();
 
-        guerrierm.setDisplayName("§rKit Guerrier");
+        guerrierm.setDisplayName("§aKit Guerrier");
+        ArrayList<String> loreg = new ArrayList<>();
+        loreg.add("");
+        loreg.add("§rKit fait pour le corps à corps");
+        guerrierm.setLore(loreg);
         guerrierm.addEnchant(Enchantment.KNOCKBACK, 1, true);
         guerrierm.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         guerrierm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         guerrier.setItemMeta(guerrierm);
 
-        archerm.setDisplayName("§rKit Archer");
+        archerm.setDisplayName("§aKit Archer");
+        ArrayList<String> lorea = new ArrayList<>();
+        lorea.add("");
+        lorea.add("§rKit fait pour le combat à distance");
+        archerm.setLore(lorea);
         archerm.addEnchant(Enchantment.ARROW_KNOCKBACK, 1, true);
         archerm.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         archer.setItemMeta(archerm);
@@ -83,7 +95,16 @@ public class Inventories {
 
             ItemMeta swordm = sword.getItemMeta();
 
+            swordm.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
+
+
             swordm.spigot().setUnbreakable(true);
+
+            swordm.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+            swordm.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+            swordm.setDisplayName("§rKit Guerrier");
 
             sword.setItemMeta(swordm);
 
@@ -110,6 +131,8 @@ public class Inventories {
             bowm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
             bowm.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+            bowm.setDisplayName("§rKit archer");
 
             bow.setItemMeta(bowm);
 
