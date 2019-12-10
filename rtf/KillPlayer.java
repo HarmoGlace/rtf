@@ -1,10 +1,7 @@
 package fr.harmoglace.plugin.rtf;
 
 import fr.harmoglace.plugin.main;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,6 +28,7 @@ public class KillPlayer implements Listener {
 
 
     public void killPlayer(Player player) {
+
         main.titles.sendTitle(player, 3, "§4Tu es mort", "");
         main.kits.remove(player);
         player.getInventory().clear();
@@ -121,11 +119,13 @@ public class KillPlayer implements Listener {
                             main.kits.put(player, "guerrier");
                             main.inventories.setKit(player, "guerrier");
                             player.closeInventory();
+                            player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 10, 1);
                             player.sendMessage("§eTu as choisit le kit guerrier");
                         } else if (type == Material.BOW) {
                             main.kits.put(player, "archer");
                             main.inventories.setKit(player, "archer");
                             player.closeInventory();
+                            player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 10, 1);
                             player.sendMessage("§eTu as choisit le kit archer");
                         }
                     } else if (clicked.getName().equals(player.getInventory().getName())) {

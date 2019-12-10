@@ -2,6 +2,7 @@ package fr.harmoglace.plugin.rtf;
 
 import fr.harmoglace.plugin.main;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -104,6 +105,7 @@ public class ChooseTeam implements Listener {
 
                                 player.setDisplayName("§9Bleu " + player.getDisplayName());
 
+                                player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 1);
                                 player.sendMessage("§9Tu as choisit l'équipe bleue");
 
 
@@ -133,6 +135,7 @@ public class ChooseTeam implements Listener {
 
                                 player.setDisplayName("§4Rouge " + player.getDisplayName());
 
+                                player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 1);
                                 player.sendMessage("§4Tu as choisit l'équipe rouge");
                             }
                         }

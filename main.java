@@ -50,7 +50,7 @@ public class main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Others(this), this);
 
 
-        Timer msg = new Timer();
+
 
     }
 
