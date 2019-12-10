@@ -83,11 +83,44 @@ public class Inventories {
         ItemStack leggings = new ItemStack(Material.IRON_LEGGINGS);
         ItemStack boots = new ItemStack(Material.IRON_BOOTS);
         ItemStack blocks = new ItemStack(Material.SANDSTONE, 64);
+        ItemStack pickaxe = new ItemStack(Material.IRON_PICKAXE);
+
+        ItemMeta helmetm = helmet.getItemMeta();
+        ItemMeta chestplatem = chestplate.getItemMeta();
+        ItemMeta leggingsm = leggings.getItemMeta();
+        ItemMeta bootsm = boots.getItemMeta();
+
+        helmetm.spigot().setUnbreakable(true);
+        helmetm.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        chestplatem.spigot().setUnbreakable(true);
+        chestplatem.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        leggingsm.spigot().setUnbreakable(true);
+        leggingsm.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        bootsm.spigot().setUnbreakable(true);
+        bootsm.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+
+        helmet.setItemMeta(helmetm);
+        chestplate.setItemMeta(chestplatem);
+        leggings.setItemMeta(leggingsm);
+        boots.setItemMeta(bootsm);
+
+        ItemMeta pickaxem = pickaxe.getItemMeta();
+
+        pickaxem.spigot().setUnbreakable(true);
+
+        pickaxem.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        pickaxe.setItemMeta(pickaxem);
 
         inventory.setItem(39, helmet);
         inventory.setItem(38, chestplate);
         inventory.setItem(37, leggings);
         inventory.setItem(36, boots);
+        inventory.setItem(1, pickaxe);
         inventory.setItem(8, blocks);
 
         if (kit.equalsIgnoreCase("guerrier")) {
@@ -95,7 +128,7 @@ public class Inventories {
 
             ItemMeta swordm = sword.getItemMeta();
 
-            swordm.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
+            swordm.addEnchant(Enchantment.DAMAGE_ALL, 2, true);
 
 
             swordm.spigot().setUnbreakable(true);
@@ -113,12 +146,14 @@ public class Inventories {
         } else if (kit.equalsIgnoreCase("archer")) {
             ItemStack bow = new ItemStack(Material.BOW);
             ItemStack arrow = new ItemStack(Material.ARROW);
-            ItemStack sword = new ItemStack(Material.STONE_SWORD);
+            ItemStack sword = new ItemStack(Material.WOOD_SWORD);
 
             ItemMeta bowm = bow.getItemMeta();
             ItemMeta swordm = sword.getItemMeta();
 
             swordm.spigot().setUnbreakable(true);
+
+            swordm.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 
             sword.setItemMeta(swordm);
 
